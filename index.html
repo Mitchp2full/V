@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap — Débit Portatif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --bg2: #141414;
+    --bg3: #1a1a1a;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ede8;
+    --muted: #6b6762;
+    --muted2: #4a4744;
+    --accent: #e8533a;
+    --accent2: #f07a5a;
+    --green: #2eb87a;
+    --green-bg: rgba(46,184,122,0.1);
+    --blue: #4a9eff;
+    --blue-bg: rgba(74,158,255,0.1);
+    --orange: #e8533a;
+    --orange-bg: rgba(232,83,58,0.1);
+    --gray-bg: rgba(255,255,255,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 3rem;
+    animation: fadeUp .5s ease both;
+  }
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    margin-bottom: .75rem;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    color: var(--text);
+    margin-bottom: .35rem;
+  }
+  .header-sub {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* Métriques */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 2rem;
+    animation: fadeUp .5s .1s ease both;
+  }
+  @media(max-width:560px){ .metrics { grid-template-columns: repeat(2,1fr); } }
+  .metric {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .875rem 1rem;
+  }
+  .metric-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .metric-value {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -.02em;
+  }
+  .metric-value.accent { color: var(--accent2); }
+  .metric-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Barre de progression */
+  .prog-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    animation: fadeUp .5s .15s ease both;
+  }
+  .prog-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'DM Mono', monospace;
+  }
+  .prog-top span:last-child { color: var(--text); font-weight: 500; }
+  .prog-track {
+    height: 4px;
+    background: var(--bg3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    width: 11%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  /* Pills */
+  .pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+    animation: fadeUp .5s .2s ease both;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-family: 'DM Mono', monospace;
+  }
+  .pill-blue { background: var(--blue-bg); border-color: rgba(74,158,255,.2); color: var(--blue); }
+  .pill-orange { background: var(--orange-bg); border-color: rgba(232,83,58,.3); color: var(--accent2); }
+  .pill svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  /* Timeline */
+  .timeline { position: relative; }
+
+  .phase {
+    display: flex;
+    gap: 1.25rem;
+    position: relative;
+  }
+
+  .ph-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 36px;
+    flex-shrink: 0;
+  }
+
+  .ph-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+    border: 1px solid;
+  }
+  .dot-done  { background: var(--green-bg);   border-color: rgba(46,184,122,.3);  color: var(--green); }
+  .dot-now   { background: var(--blue-bg);    border-color: rgba(74,158,255,.3);  color: var(--blue); }
+  .dot-fire  { background: var(--orange-bg);  border-color: rgba(232,83,58,.35);  color: var(--accent2); }
+  .dot-launch{ background: var(--accent);     border-color: var(--accent);        color: #fff; }
+  .dot-future{ background: var(--bg3);        border-color: var(--border);        color: var(--muted); }
+
+  .ph-line {
+    width: 1px;
+    flex: 1;
+    min-height: 12px;
+    margin: 4px 0;
+  }
+  .line-done   { background: rgba(46,184,122,.25); }
+  .line-active { background: rgba(74,158,255,.2); }
+  .line-fire   { background: rgba(232,83,58,.2); }
+  .line-future { background: var(--border); }
+
+  .ph-body {
+    flex: 1;
+    padding-bottom: 2rem;
+  }
+
+  .ph-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 4px;
+  }
+  .tag-done   { color: var(--green); }
+  .tag-now    { color: var(--blue); }
+  .tag-fire   { color: var(--accent2); }
+  .tag-launch { color: var(--accent); }
+  .tag-future { color: var(--muted2); }
+
+  .ph-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -.01em;
+  }
+  .ph-title.launch { color: var(--accent2); }
+
+  .ph-dates {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Mono', monospace;
+  }
+  .ph-dates svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  .tasks { display: flex; flex-direction: column; gap: 6px; }
+
+  .task {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  .task svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .task-text { flex: 1; }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-weight: 500;
+    margin-left: auto;
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .bd { background: var(--green-bg);   color: var(--green);   border: 1px solid rgba(46,184,122,.2); }
+  .ba { background: var(--blue-bg);    color: var(--blue);    border: 1px solid rgba(74,158,255,.2); }
+  .bf { background: var(--orange-bg);  color: var(--accent2); border: 1px solid rgba(232,83,58,.2); }
+  .bg { background: var(--gray-bg);    color: var(--muted);   border: 1px solid var(--border); }
+
+  /* Animation stagger par phase */
+  .phase:nth-child(1) { animation: fadeUp .5s .25s ease both; }
+  .phase:nth-child(2) { animation: fadeUp .5s .32s ease both; }
+  .phase:nth-child(3) { animation: fadeUp .5s .39s ease both; }
+  .phase:nth-child(4) { animation: fadeUp .5s .46s ease both; }
+  .phase:nth-child(5) { animation: fadeUp .5s .53s ease both; }
+  .phase:nth-child(6) { animation: fadeUp .5s .60s ease both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    animation: fadeUp .5s .7s ease both;
+  }
+  .footer-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    display: inline-block;
+    margin-right: 6px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; } 50% { opacity:.3; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-tag">E-commerce · Débit portatif · 90 jours</div>
+    <h1>Roadmap — Objectif 10 000€/mois</h1>
+    <div class="header-sub">De 1 500€ à 10 000€ en 90 jours via TikTok & Instagram</div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-label">CA actuel</div>
+      <div class="metric-value">1 500€</div>
+      <div class="metric-sub">par mois</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Objectif</div>
+      <div class="metric-value accent">10 000€</div>
+      <div class="metric-sub">par mois</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Premiers posts</div>
+      <div class="metric-value">Jeudi 5/06</div>
+      <div class="metric-sub">dans 2 jours</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Jours restants</div>
+      <div class="metric-value">80 j</div>
+      <div class="metric-sub">pour faire ×6,7</div>
+    </div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span>Avancement — jour 10 / 90</span>
+      <span>11%</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill"></div></div>
+  </div>
+
+  <div class="pills">
+    <div class="pill pill-blue">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+      Aujourd'hui — lundi 2 juin
+    </div>
+    <div class="pill pill-orange">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L8 8M8 8L12 12M8 8L4 12"/></svg>
+      Premiers posts — jeudi 5 juin
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="ph-left">
+        <div class="ph-dot dot-done">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3.5 3.5L13 4"/></svg>
+        </div>
+        <div class="ph-line line-done"></div>
+      </div>
+      <div class="ph-body">
+        <div class="ph-tag tag-done">Phase 1 — Terminé · J1–J10</div>
+        <div class="ph-title">Audit & collecte clients</div>
+        <div class="ph-dates">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M5 1v3M11 1v3"/></svg>
+          22 mai – 1 juin
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5 8l2.5 2.5L11 5.5"/></svg>
+            <span class="task-text">Diagnostic CA actuel</span>
+            <span class="badge bd">Fait</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5 8l2.5 2.5L11 5.5"/></svg>
+            <span class="task-text">Collecte & analyse des avis clients</span>
+            <span class="badge bd">Fait</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5 8l2.5 2.5L11 5.5"/></svg>
+            <span class="task-text">Liste clients opt-in email prête</span>
+            <span class="badge bd">Fait</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="ph-left">
+        <div class="ph-dot dot-now">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg>
+        </div>
+        <div class="ph-line line-active"></div>
+      </div>
+      <div class="ph-body">
+        <div class="ph-tag tag-now">Phase 2 — En cours · J10–J11</div>
+        <div class="ph-title">Persona & envoi formulaire</div>
+        <div class="ph-dates">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M5 1v3M11 1v3"/></svg>
+          Lundi 2 juin
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Persona v1 posé avec les données existantes</span>
+            <span class="badge ba">Aujourd'hui</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Envoi formulaire aux clients opt-in</span>
+            <span class="badge ba">Aujourd'hui</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="ph-left">
+        <div class="ph-dot dot-fire">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 13C5 13 3 11 3 8.5c0-1.5 1-3 2-4 0 2 1 2.5 1.5 2C7 5 7.5 3 8 2c1 2 3 3.5 3 6 0 .8-.2 1.5-.5 2C11 9 11 8 10.5 7c-.5 1.5-1 2-2.5 2 1 .5 1.5 2 0 4z"/></svg>
+        </div>
+        <div class="ph-line line-fire"></div>
+      </div>
+      <div class="ph-body">
+        <div class="ph-tag tag-fire">Phase 3 — Demain · J11–J12</div>
+        <div class="ph-title">Refonte du site — live avant jeudi</div>
+        <div class="ph-dates">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M5 1v3M11 1v3"/></svg>
+          Mardi 3 juin (toute la journée)
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Copywriting pages produit orienté persona</span>
+            <span class="badge bf">Mardi matin</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Tunnel de vente & fiches optimisées</span>
+            <span class="badge bf">Mardi après-midi</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Site mis en ligne — validé</span>
+            <span class="badge bf">Mardi soir</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="ph-left">
+        <div class="ph-dot dot-fire">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10a5 5 0 1 1 10 0"/><path d="M5 12h6M8 2v2M3.5 3.5l1.5 1.5M12.5 3.5L11 5"/></svg>
+        </div>
+        <div class="ph-line line-fire"></div>
+      </div>
+      <div class="ph-body">
+        <div class="ph-tag tag-fire">Phase 4 — Mercredi · J12</div>
+        <div class="ph-title">Tournage & montage</div>
+        <div class="ph-dates">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M5 1v3M11 1v3"/></svg>
+          Mercredi 4 juin
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Scripts des 3 premiers posts — hooks forts</span>
+            <span class="badge bf">Mercredi matin</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Tournage des 3 vidéos</span>
+            <span class="badge bf">Mercredi après-midi</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" stroke-dasharray="2 2"/></svg>
+            <span class="task-text">Montage + captions prêts à poster</span>
+            <span class="badge bf">Mercredi soir</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lancement -->
+    <div class="phase">
+      <div class="ph-left">
+        <div class="ph-dot dot-launch">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2c0 0 4 2.5 4 7a4 4 0 01-8 0c0-4.5 4-7 4-7z"/><path d="M6 11l-2 2M10 11l2 2"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="ph-line line-fire"></div>
+      </div>
+      <div class="ph-body">
+        <div class="ph-tag tag-launch">Lancement — Jeudi 5 juin · J13</div>
+        <div class="ph-title launch">Premiers posts publiés — site déjà en ligne</div>
+        <div class="ph-dates">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M5 1v3M11 1v3"/></svg>
+          TikTok + Instagram
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
+            <span class="task-text">Post 1 — TikTok (démo produit)</span>
+            <span class="badge bf">7h00</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
+            <span class="task-text">Post 2 — Instagram Reels</span>
+            <span class="badge bf">12h00</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
+            <span class="task-text">Post 3 — TikTok (preuve sociale)</span>
+            <span class="badge bf">18h00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="phase">
+      <div class="ph-left">
+        <div class="ph-dot dot-future">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="2,12 6,7 9,10 14,4"/><polyline points="11,4 14,4 14,7"/></svg>
+        </div>
+      </div>
+      <div class="ph-body" style="padding-bottom:0">
+        <div class="ph-tag tag-future">Phase 5 — Régime de croisière · J13–J90</div>
+        <div class="ph-title">2 à 3 posts/jour — itération hebdo</div>
+        <div class="ph-dates">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M5 1v3M11 1v3"/></svg>
+          5 juin – 20 août
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
+            <span class="task-text">Publication quotidienne TikTok & Instagram</span>
+            <span class="badge bg">Planifié</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
+            <span class="task-text">TikTok Shop activé & suivi des ventes</span>
+            <span class="badge bg">Planifié</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
+            <span class="task-text">Analyse hebdo — doubler sur ce qui cartonne</span>
+            <span class="badge bg">Planifié</span>
+          </div>
+          <div class="task">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
+            <span class="task-text">Cap 10 000€/mois atteint</span>
+            <span class="badge bg">Objectif</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span><span class="footer-dot"></span>Mis à jour le 2 juin 2025</span>
+    <span>J10 / 90 jours</span>
+  </div>
+
+</div>
+</body>
+</html>
